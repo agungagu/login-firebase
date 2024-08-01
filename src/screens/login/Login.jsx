@@ -1,4 +1,19 @@
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Link } from "react-router-dom";
+// import { auth } from "../../firebase";
+
 const Login = () => {
+  const handleGoogleLogin = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.info(result.user);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <main className="w-screen min-h-screen flex bg-gradient-to-br from-yellow-800 to-purple-500 mx-auto p-10 sm:items-center sm:justify-center md:justify-center lg:items-center lg:justify-center">
       <form
@@ -8,6 +23,40 @@ const Login = () => {
         <h1 className="text-center text-3xl sm:text-4xl font-semibold text-blue-500">
           Login
         </h1>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email">email</label>
+          <input
+            type="email"
+            id="email"
+            className="h-10 px-3 rounded-md border border-gray-300"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password">password</label>
+          <input
+            type="password"
+            id="password"
+            className="h-10 px-3 rounded-md border border-gray-300"
+          />
+        </div>
+        <div className="flex mt-4 flex-col gap-2">
+          <button className="h-10 w-full bg-blue-500 text-white rounded-lg font-semibold">
+            Login
+          </button>
+          <button
+            className="h-10 w-full bg-yellow-500 text-white rounded-lg font-semibold"
+            type="button"
+            onClick={handleGoogleLogin}
+          >
+            Login with Google
+          </button>
+          <Link
+            to={"/register"}
+            className="h-10 w-full bg-gray-500 text-white rounded-lg font-semibold flex justify-center items-center"
+          >
+            Register
+          </Link>
+        </div>
       </form>
     </main>
   );
